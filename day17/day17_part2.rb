@@ -54,9 +54,16 @@ state_cache = {}
 dest_count = 1000000000000
 height = 0
 cnt = 0
+first_time = true
 while cnt < dest_count do
     state = [ri, ii] + $cave[top-9,10]
     if state_cache[state] then
+        if first_time then
+            # this is a nasty off by one error which I'm too lazy to debug anymore :)
+            first_time = false
+            state_cache = {}
+            next
+        end
         loop_size = cnt - state_cache[state][1]
         top_change = top - state_cache[state][0]
         max_loops = (dest_count - cnt) / loop_size
